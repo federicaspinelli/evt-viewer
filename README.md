@@ -38,7 +38,7 @@ sudo apt-get install -y nodejs
 5. Install grunt and bower globally (bower v. 1.8.0 is recommended)
 ```bash
 sudo npm install -g bower
-sudo npm install -g grunt-cli 
+sudo npm install -g grunt-cli
 ```
 6. Clone the EVT repository
 ```bash
@@ -77,7 +77,7 @@ Install nodejs from https://nodejs.org/ or https://nodejs.org/en/download/packag
 
 4. Install grunt and bower globally (bower v. 1.8.0 is recommended)
 ```bash
-npm install -g bower 
+npm install -g bower
 npm install -g grunt-cli
 ```
 
@@ -96,7 +96,7 @@ npm install bower
 bower install [choose the angular.js version recommended for evt-viewer]
 ```
 
-### OS X 
+### OS X
 
 1. Install Homebrew [to do only if you haven't already installed homebrew]
 
@@ -121,7 +121,7 @@ brew install node
 5. Install grunt and bower globally (bower v. 1.8.0 is recommended)
 ```bash
 npm install -g bower
-npm install -g grunt-cli 
+npm install -g grunt-cli
 ```
 
 6. Clone the EVT repository
@@ -138,8 +138,8 @@ bower install [choose the angular.js version recommended for evt-viewer]
 
 Start EVT
 ---------
-Before starting EVT check if you have a *data* folder inside *app* where to put you XML file(s); otherwise create it. Then check if in the *app/config/config.json* the property *dataUrl* is pointing to your edition file. If you need, you can also change some of the other configuration parameters. 
-If you need information about the configuration file, please check the *README.md* within the *app* folder, or use the beta EVT2-Config-Generator](http://evt.labcd.unipi.it/evt2-config/) to set your preferences and download a ready to use JSON file.
+Before starting EVT check if you have a *data* folder inside *app* where to put you XML file(s); otherwise create it. Then check if in the *app/config/config.json* the property *dataUrl* is pointing to your edition file. If you need, you can also change some of the other configuration parameters.
+If you need information about the configuration file, please check the *README.md* within the *app* folder, or use the beta EVT2-Config-Generator(http://evt.labcd.unipi.it/evt2-config/) to set your preferences and download a ready to use JSON file.
 
 To start EVT use *grunt*
 ``` bash
@@ -151,7 +151,7 @@ Generate EVT Development Documentation
 ``` bash
 grunt docs
 ```
-This will create a *devDocs* folder. 
+This will create a *devDocs* folder.
 Open the *index.html* inside this folder in a browser that allows Cross origin requests (e.g. Firefox) and navigate the documentation.
 
 Troubleshooting
@@ -190,6 +190,67 @@ Build a new EVT release
 ``` bash
 grunt build
 ```
-This will create a *build* folder containing the built package. 
+This will create a *build* folder containing the built package.
 Add a *data* folder with the XML files you need and open the index.html file to see your digital edition.
 NB: in this case, in order to make EVT work properly in a local environment, you need to use a browser that allows Cross origin requests (e.g. Firefox).
+
+Branch description
+------------------
+### master
+This is the main branch.
+
+### develop
+This is the main development branch.
+
+### critical-edition
+Branch dedicated to the initial development of functionalities to support critical edition.
+This is a closed branch.
+
+### dipl-mobile
+Branch dedicated to the development of support for mobile devices.
+This is an abandoned branch.
+
+### WIP FEATURE
+#### feature/dipl-interp-edLevel
+Branch dedicated to the development of functionalities to support diplomatic and interpretative edition levels.
+
+#### feature/msDescription
+Branch dedicated to the development of functionalities to support manuscript description access.
+
+#### feature/place-names-map
+Branch dedicated to the development of functionalities to support an interactive map of places appearing in Named Entities Places List.
+
+#### feature/search
+Branch dedicated to the development of an internal Search Engine.
+
+#### feature/verses
+Branch dedicated to the development of the support of prose/verse visualization.
+
+#### feature/viewer-ITL
+Branch dedicated to the development of a new Image Viewer and the support for Image Text Linking feature.
+
+### STANBY FEATURE
+#### feature/3DHOP-support
+Branch dedicated to the test the integration of the tool 3DHOP.
+This is a temporarily abandoned branch.
+
+### CLOSED FEATURE
+#### feature/bibliography
+Branch dedicated to the development of functionalities to support bibliography.
+This is a closed branch.
+
+#### feature/critical-edition-2
+Branch dedicated to the development of functionalities to support critical edition.
+This is a closed branch.
+
+#### feature/documentation
+Branch dedicated to the documentation management.
+This is a closed branch.
+
+#### feature/localization
+Branch dedicated to the development of UI localization.
+This is a closed branch.
+
+#### feature/named-entities
+Branch dedicated to the development of functionalities to support Named Entities.
+This is a closed branch.
