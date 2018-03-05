@@ -80,6 +80,17 @@ angular.module('evtviewer.dataHandler')
 	var bibliographicRefsCollection = {
 		_indexes: []
 	};
+	/*
+		var paragraphsCollection: {
+   			par1: { *OBJECT REPRESENTIN PARAGRAPH* },
+   			par2: { *OBJECT REPRESENTIN PARAGRAPH* },
+   			_indexes: ["par1", "par2]
+		}
+	*/
+	var paragraphsCollection = {
+		_indexes: []
+	};
+
 
 	// TODO manage unique value for pages, documents and editions
 	/**
@@ -108,6 +119,7 @@ angular.module('evtviewer.dataHandler')
 	var pagesCollection = {
 		length: 0
 	};
+
 	/**
      * @ngdoc property
      * @name evtviewer.dataHandler.parsedData#documentsCollection
@@ -923,6 +935,16 @@ angular.module('evtviewer.dataHandler')
 			documentsCollection[docId].pages.push(pageId);
 		}
 	};
+
+	parsedData.addPar = function(par) {
+		
+		if (paragraphsCollection[par.id] === undefined) {
+			paragraphsCollection[par.id] = par;
+			paragraphsCollection._indexes.push(par.id);
+		}
+	};
+	console.log('## Collezione PAR ##', paragraphsCollection);
+
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.parsedData#getPages

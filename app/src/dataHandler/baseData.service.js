@@ -192,6 +192,9 @@ angular.module('evtviewer.dataHandler')
         // Parse documents
         evtParser.parseDocuments(docElements);
 
+        //Parse paragraphs
+        evtParser.parseParagraphs(docElements);
+
         // Parse witnesses list
         evtCriticalApparatusParser.parseWitnesses(docElements);
         
