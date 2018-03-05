@@ -18,6 +18,8 @@ angular.module('evtviewer.dataHandler')
 	var idx = 0;
 	// TODO: create module provider and add default configuration
 	// var defAttributes = ['n', 'n', 'n'];
+	var defPar= 'p';
+
 	var defPageElement = 'pb',
 		defLineBreak = '<lb>',
 		defLine = '<l>',
@@ -892,8 +894,36 @@ angular.module('evtviewer.dataHandler')
 			});
 		console.log('## PAGES ##', parsedData.getPages());
 		console.log('## Documents ##', parsedData.getDocuments());
-		return parsedData.getDocuments();
 	};
+//da rivedere
+
+		parser.parseParagraphs = function(doc) {
+			var currentDocument = angular.element(doc);
+			angular.forEach(currentDocument.find(defPar),
+				function(element) {
+					var newPar = {};
+					//l'ho fatto così, sennò il nome della proprietà veniva inserito tra "" 
+					newPar.id = element.getAttribute('xml:id') || parser.xpath(element).substr(1);
+					//vi sono dei \ di troppo sia in xmlSource che in parsedXmlElem
+					newPar.xmlSource = element.innerHTML; //non funziona la regex
+					//.replace(/\\"/g, '"');
+					var parsedXmlElem = parser.parseXMLElement(doc, element, {
+					skip: ''});
+					newPar.parsedXml = parsedXmlElem ? parsedXmlElem.outerHTML : '';
+					for (var j = 0; j < element.attributes.length; j++) {
+						var attrib = element.attributes[j];
+						if (attrib.specified) {
+							if (attrib.name!="xml:id"){
+								newPar[attrib.name] = attrib.value;
+							}
+						}
+						//in qualche caso n non è definito come attributo, numero io gli n?
+					}
+					//console.log('## PAR ##', newPar);
+					parsedData.addPar(newPar);
+				
+				});
+		}
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.evtParser#splitLineBreaks
