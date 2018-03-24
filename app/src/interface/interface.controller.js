@@ -29,14 +29,21 @@ angular.module('evtviewer.interface')
 
 	.controller('InterfaceCtrl', function($log, $timeout, $injector, $scope, $route, evtInterface, evtTranslation, evtPinnedElements, evtButtonSwitch, evtBox, evtApparatuses, parsedData, evtSelect, evtPopover, evtCommunication, evtDialog) {
 		var _console = $log.getInstance('interface');
-		/**
+		
+      $scope.getPar = function() {
+         var parCollection = parsedData.getPar();
+         return parCollection._indexes;
+      }
+      
+      /**
          * @ngdoc method
          * @name evtviewer.interface.controller:InterfaceCtrl#getCurrentViewMode
          * @methodOf evtviewer.interface.controller:InterfaceCtrl
          * @description Get current view mode from evtInterface states ({@link evtviewer.interface.evtInterface#getState evtInterface.getState()})
          * @returns {string} current view mode
          */
-		$scope.getCurrentViewMode = function() {
+		
+      $scope.getCurrentViewMode = function() {
 			return evtInterface.getState('currentViewMode');
 		};
 		/**
