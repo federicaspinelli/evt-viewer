@@ -945,8 +945,7 @@ angular.module('evtviewer.dataHandler')
 			paragraphsCollection._indexes.push(par.id);
 		}
 	};
-	console.log('## Collezione PAR ##', paragraphsCollection);
-
+	
 	//restituisce la collezione dei paragrafi
 	parsedData.getPar = function() {
 		return paragraphsCollection;

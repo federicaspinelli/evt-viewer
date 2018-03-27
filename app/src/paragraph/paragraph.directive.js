@@ -8,6 +8,8 @@ angular.module('evtviewer.paragraph')
 		},
 		transclude: true,
 		templateUrl: 'src/paragraph/paragraph.directive.tmpl.html',
+		controllerAs: 'vm',
+        controller: 'ReadingCtrl',
 		link: function(scope){
 			scope.vm = {
 				parId: scope.parId

@@ -923,6 +923,7 @@ angular.module('evtviewer.dataHandler')
 					parsedData.addPar(newPar);
 				
 				});
+			console.log('## PARAGRAPHS ##', parsedData.getPar()); // Spostato qui in modo che venga stampato quando la collezione è stata parsata completamente
 		}
 	/**
      * @ngdoc method

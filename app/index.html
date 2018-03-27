@@ -148,10 +148,13 @@
         </div>
     </header>
     <div id="global-container-ext" ng-show="!isLoading()">
-        <evt-p ng-repeat="paragraph in getPar()" data-par-id="{{::paragraph}}">
-        </evt-p>
-
-        <!--<section
+        <section id="global-container">
+            <box>
+                <evt-paragraph ng-repeat="paragraph in getPar()" data-par-id="{{::paragraph}}">
+                </evt-paragraph>
+            </box>
+        </section>
+        <section
             class="secondary-container"
             ng-show="getSecondaryContentOpened() !== ''">
             <evt-dialog data-type="entitiesList" data-title="DIALOGS.NAMED_ENTITIES"
@@ -174,7 +177,7 @@
                 <div compile="getBookmark()"></div>
             </evt-dialog>
         </section>
-        <section id="global-container" ng-switch="getCurrentViewMode()" ng-if="!isLoading()">-->
+        <!-- TEMPORARILY COMMENTED <section id="global-container" ng-switch="getCurrentViewMode()" ng-if="!isLoading()">-->
             <!-- <div id="left-nav"><span><i class="fa fa-chevron-circle-left"></i></span></div> -->
             <!-- READING TEXT -->
             <!--<section id="main-container" class="viewMode" ng-switch-when="readingTxt">
