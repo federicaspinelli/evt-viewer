@@ -936,6 +936,8 @@ angular.module('evtviewer.dataHandler')
 		}
 	};
 
+//PARAGRAPHS COLLECTION
+	//aggiunge un paragrafo alla collezione
 	parsedData.addPar = function(par) {
 		
 		if (paragraphsCollection[par.id] === undefined) {
@@ -945,6 +947,16 @@ angular.module('evtviewer.dataHandler')
 	};
 	console.log('## Collezione PAR ##', paragraphsCollection);
 
+	//restituisce la collezione dei paragrafi
+	parsedData.getPar = function() {
+		return paragraphsCollection;
+	};
+
+	//restituisce un singolo paragrafo individuato con l'id
+	parsedData.getParById = function(parId) {
+		return paragraphsCollection[parId];
+	};
+	
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.parsedData#getPages
