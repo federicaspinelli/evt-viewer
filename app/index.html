@@ -149,10 +149,12 @@
     </header>
     <div id="global-container-ext" ng-show="!isLoading()">
         <section id="global-container">
-            <box>
-                <evt-paragraph ng-repeat="paragraph in getPar()" data-par-id="{{::paragraph}}">
-                </evt-paragraph>
-            </box>
+                <box>
+                    <div infinite-scroll="vm.loadMoreElements()" infinite-scroll-distance="2" infinite-scroll-parent="true">
+                        <evt-paragraph ng-repeat="paragraph in vm.visibleElements" data-par-id="{{::paragraph}}">
+                        </evt-paragraph>
+                    </div>
+                </box>
         </section>
         <section
             class="secondary-container"
