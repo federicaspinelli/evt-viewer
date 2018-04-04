@@ -150,8 +150,8 @@
     <div id="global-container-ext" ng-show="!isLoading()">
         <section id="global-container">
                 <box>
-                    <div infinite-scroll="vm.loadMoreElements()" infinite-scroll-distance="2" infinite-scroll-parent="true">
-                        <evt-paragraph ng-repeat="paragraph in vm.visibleElements" data-par-id="{{::paragraph}}">
+                    <div infinite-scroll="loadMoreElements()" infinite-scroll-distance="2" infinite-scroll-parent="true">
+                        <evt-paragraph ng-repeat="paragraphId in getParagraphs()" data-par-id="{{::paragraphId}}">
                         </evt-paragraph>
                     </div>
                 </box>

@@ -27,7 +27,7 @@
 **/
 angular.module('evtviewer.interface')
 
-	.controller('InterfaceCtrl', function($log, $timeout, $injector, $scope, $route, evtInterface, evtTranslation, evtPinnedElements, evtButtonSwitch, evtBox, evtApparatuses, parsedData, evtSelect, evtPopover, evtCommunication, evtDialog) {
+	.controller('InterfaceCtrl', function($log, $timeout, $injector, $scope, $route, evtParagraph, evtInterface, evtTranslation, evtPinnedElements, evtButtonSwitch, evtBox, evtApparatuses, parsedData, evtSelect, evtPopover, evtCommunication, evtDialog) {
 		var _console = $log.getInstance('interface');
 		
       $scope.getPar = function() {
@@ -613,6 +613,22 @@ angular.module('evtviewer.interface')
 			evtTranslation.setLanguage(langKey);
 		};
 
+      $scope.getParagraphs = function() {
+         return evtInterface.visibleParagraphs;
+      }
+      
+      $scope.loadMoreElements = function() {
+         var last = evtInterface.visibleParagraphs.length,
+            i = 0,
+            parsedElements = parsedData.getPar(); 
+         if (parsedElements !== undefined) {
+            while (i < 10 && i < parsedElements._indexes.length) {
+               var newParId = parsedElements._indexes[last+i];
+               evtInterface.visibleParagraphs.push(newParId);                    
+               i++;
+            }
+         }
+      }
 		_console.log('InterfaceCtrl running');
 	})
 
