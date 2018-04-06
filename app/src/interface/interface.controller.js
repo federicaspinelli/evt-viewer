@@ -622,7 +622,7 @@ angular.module('evtviewer.interface')
             i = 0,
             parsedElements = parsedData.getPar(); 
          if (parsedElements !== undefined) {
-            while (i < 10 && i < parsedElements._indexes.length) {
+            while (i < 10 && last+i < parsedElements._indexes.length) {
                var newParId = parsedElements._indexes[last+i];
                evtInterface.visibleParagraphs.push(newParId);                    
                i++;

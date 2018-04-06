@@ -227,10 +227,12 @@ angular.module('evtviewer.box')
                 scope.vm.scrollToPage = function(pageId) {
                     $timeout(function(){
                         var pbElem = $('#'+currentBox.uid).find('#pb_'+pageId);
-                        var padding = window.getComputedStyle(boxBody, null).getPropertyValue('padding-top').replace('px', '')*1;
-                        if (pbElem.length > 0 && pbElem[0] !== undefined) {
-                            boxBody.scrollTop = pbElem[0].offsetTop-padding;
-                        }
+                        try {
+                          var padding = window.getComputedStyle(boxBody, null).getPropertyValue('padding-top').replace('px', '')*1;
+                          if (pbElem.length > 0 && pbElem[0] !== undefined) {
+                              boxBody.scrollTop = pbElem[0].offsetTop-padding;
+                          }
+                        } catch(e) {}
                     });
                 };
                 /** @ngdoc method
@@ -246,10 +248,12 @@ angular.module('evtviewer.box')
                 scope.vm.scrollToAppEntry = function(appId) {
                     $timeout(function(){
                         var appElem = $('#'+currentBox.uid).find('[data-app-id=\''+appId+'\']');
-                        var padding = window.getComputedStyle(boxBody, null).getPropertyValue('padding-top').replace('px', '')*1;
-                        if (appElem.length > 0 && appElem[0] !== undefined) {
-                            boxBody.scrollTop = appElem[0].offsetTop-padding;
-                        }
+                        try {
+                          var padding = window.getComputedStyle(boxBody, null).getPropertyValue('padding-top').replace('px', '')*1;
+                          if (appElem.length > 0 && appElem[0] !== undefined) {
+                              boxBody.scrollTop = appElem[0].offsetTop-padding;
+                          }
+                        } catch(e) {}
                     });
                 };
 

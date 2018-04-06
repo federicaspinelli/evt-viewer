@@ -37,7 +37,16 @@
     <div class="box-body {{vm.edition}}Edition {{vm.getNamedEntitiesActiveTypes()}} {{vm.getAdditionalClass()}}"
          style="{{vm.fontSize();}}"
          id="box_body_{{::vm.uid}}" 
+         ng-if="vm.type!=='paragraphs'"
          compile="::vm.content" ng-transclude></div>
+    <!-- TEMPORARY TO TEST PARAGRAPHS-->
+    <div class="box-body {{vm.edition}}Edition {{vm.getNamedEntitiesActiveTypes()}} {{vm.getAdditionalClass()}}"
+         style="{{vm.fontSize();}}"
+         id="box_body_{{::vm.uid}}" 
+         ng-if="vm.type=='paragraphs'">
+            <!-- LUCIA: Aggiungi qui la parte HTML legata al lazy loading dei paragrafi -->
+    </div>
+    
     <!-- <div class="box-body" id="box_body_{{vm.uid}}">{{ vm.content }}</div> -->
     <div class="loading" ng-if="vm.isLoading"><i class="fa fa-spinner fa-pulse loader"></i></div>
     <div class="filters-in-box" 

@@ -1011,20 +1011,36 @@ angular.module('evtviewer.dataHandler')
 	 * @param {string} editionLevel Edition level of text to be added
 	 * @param {string} HTMLtext String representing the HTML of the page within the particular document at a particular edition level
      */
-	parsedData.setPageText = function(pageId, docId, editionLevel, HTMLtext) {
+	parsedData.setPageText = function(pageId, docId, editionLevel, HTMLtext, paragraphs) {
 		var pageObj = pagesCollection[pageId];
 		if (pageObj) {
 			if (!pageObj.text) {
 				pageObj.text = {};
 			}
-			var pageDocObj = pageObj.text[docId];
-			if (pageDocObj !== undefined && pageDocObj[editionLevel] !== undefined) {
-				pageDocObj[editionLevel] += HTMLtext;
-			} else if (pageDocObj !== undefined) {
-				pageDocObj[editionLevel] = HTMLtext;
-			} else {
+			if (!pageObj.text[docId]) {
 				pageObj.text[docId] = {};
-				pageObj.text[docId][editionLevel] = HTMLtext;
+			}
+			var pageDocObj = pageObj.text[docId];
+
+			if (pageDocObj[editionLevel] !== undefined) {
+				pageDocObj[editionLevel].wholeText += HTMLtext;
+				if (paragraphs && paragraphs._indexes) {
+					var parIds = paragraphs._indexes;
+					for (var i = 0; i < parIds.length; i++) {
+						var parId = parIds[i];
+						if (pageDocObj[editionLevel].paragraphs[parId] !== undefined) {
+							pageDocObj[editionLevel].paragraphs[parId] += paragraphs[parId];
+						} else {
+							pageDocObj[editionLevel].paragraphs[parId] = paragraphs[parId];
+							pageDocObj[editionLevel].paragraphs._indexes.push(parId);
+						}
+					} 
+				} 
+			} else {
+				pageDocObj[editionLevel] = {
+					wholeText: HTMLtext,
+					paragraphs: paragraphs ? paragraphs : { _indexes: [] }
+				}
 			}
 			if (pageObj.docs && pageObj.docs.indexOf(docId) < 0) {
 				pageObj.docs.push(docId);
@@ -1045,8 +1061,8 @@ angular.module('evtviewer.dataHandler')
 	 */
 	parsedData.getPageText = function(pageId, docId, editionLevel) {
 		var pageObj = pagesCollection[pageId];
-		if (pageObj && pageObj.text && pageObj.text[docId]) {
-			return pageObj.text[docId][editionLevel];
+		if (pageObj && pageObj.text && pageObj.text[docId] && pageObj.text[docId][editionLevel]) {
+			return pageObj.text[docId][editionLevel].wholeText;
 		}
 		return undefined;
 	};

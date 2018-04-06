@@ -490,7 +490,9 @@ angular.module('evtviewer.box')
 					topBoxContent: ''
 				},
 				appFilters = [],
-				updateContent,
+				updateContent = function(newContent) {
+					scope.vm.content = newContent;
+				},
 				isLoading = true;
 
 			var genericTools = {
@@ -554,6 +556,14 @@ angular.module('evtviewer.box')
 		     */
 			var newContent;
 			switch (currentType) {
+				case 'paragraphs':
+					isLoading = false;
+					// LUCIA: Questo devi considerarlo come controller e punto in cui estendere il controller.
+					// le varie proprietà/metodi aggiunti devi definirli ma associarli allo scopeHelper 
+					// in fondo a questo switch, più o meno dovrebbe essere a riga 1103.
+					// NB: Adesso non importa che tu faccia affidamento al service evtInterface perché puoi 
+					// utilizzare lo scope della direttiva in cui siamo
+					break;
 				case 'image':
 					topMenuList.selectors.push({
 						id: 'page_' + currentId,
@@ -1122,7 +1132,8 @@ angular.module('evtviewer.box')
 				getNamedEntitiesActiveTypes: getNamedEntitiesActiveTypes,
 				getAdditionalClass: getAdditionalClass,
 
-				isITLactive: isITLactive //TEMP
+				//TEMP
+				isITLactive: isITLactive
 			};
 
 			collection[currentId] = angular.extend(vm, scopeHelper);

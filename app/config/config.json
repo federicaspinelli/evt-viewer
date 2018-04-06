@@ -12,6 +12,11 @@
 	"availableViewModes": [{
                                 "label"    : "READING_TEXT",
                                 "icon"     : "reading-txt",
+                                "viewMode" : "testingParagraphs",
+                                "visible"  : true
+                            },{
+                                "label"    : "READING_TEXT",
+                                "icon"     : "reading-txt",
                                 "viewMode" : "readingTxt",
                                 "visible"  : true
                             },
@@ -57,12 +62,12 @@
         "value": "diplomatic",
         "label": "Diplomatic",
         "title": "Diplomatic edition",
-        "visible": false
+        "visible": true
     }, {
         "value": "interpretative",
         "label": "Interpretative",
         "title": "Interpretative edition",
-        "visible": false
+        "visible": true
     }],
 
     "enableXMLdownload" : true,
