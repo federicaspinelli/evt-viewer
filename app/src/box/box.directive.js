@@ -96,8 +96,6 @@ angular.module('evtviewer.box')
                 version : scope.version
             };
 
-            var visibleParagraphs = [];
-
             // Initialize box
             var currentBox = evtBox.build(scope, scope.vm);
             var boxElem = angular.element(element).find('.box')[0],
@@ -476,33 +474,7 @@ angular.module('evtviewer.box')
                     currentBox.updateContent();
                 });
             }
-
-            // Se il box è un paragrafo
             
-            var parsedElements = parsedData.getPar();
-            visibleParagraphs = parsedElements._indexes.slice(0, 5);
-
-            if (currentBox.type === 'paragraphs'){
-                scope.vm.getParagraphs = function() {
-                  return visibleParagraphs;
-                }
-            }
-
-            if (currentBox.type === 'paragraphs'){
-                scope.vm.loadMoreElements = function() {
-                  var last = visibleParagraphs.length,
-                  i = 0,
-                  parsedElements = parsedData.getPar(); 
-                  if (parsedElements !== undefined) {
-                    while (i < 10 && last+i < parsedElements._indexes.length) {
-                      var newParId = parsedElements._indexes[last+i];
-                      visibleParagraphs.push(newParId);                    
-                      i++;
-                    }
-                  }
-                }   
-            }
-
             // Garbage collection
             scope.$on('$destroy', function() {
                 if (currentBox){

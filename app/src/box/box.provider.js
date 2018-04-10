@@ -514,6 +514,28 @@ angular.module('evtviewer.box')
 				}]
 			};
 
+			// Function to handle Paragraphs lazy loading
+			var parsedElements = parsedData.getPar(),
+            	visibleParagraphs = parsedElements && parsedElements._indexes ? parsedElements._indexes.slice(0, 5) : [];
+
+            var getParagraphs = function() {
+                var vm = this;
+				return vm.visibleParagraphs;
+            };
+
+            var loadMoreElements = function() {
+            	var vm = this;
+				var last = vm.visibleParagraphs.length,
+					i = 0,
+					parsedElements = parsedData.getPar(); 
+              	if (parsedElements !== undefined) {
+                	while (i < 10 && last+i < parsedElements._indexes.length) {
+						var newParId = parsedElements._indexes[last+i];
+						visibleParagraphs.push(newParId);                    
+						i++;
+                	}
+              	}
+            };
 			var scopeHelper = {};
 
 			if (typeof(collection[currentId]) !== 'undefined') {
@@ -558,11 +580,6 @@ angular.module('evtviewer.box')
 			switch (currentType) {
 				case 'paragraphs':
 					isLoading = false;
-					// LUCIA: Questo devi considerarlo come controller e punto in cui estendere il controller.
-					// le varie proprietà/metodi aggiunti devi definirli ma associarli allo scopeHelper 
-					// in fondo a questo switch, più o meno dovrebbe essere a riga 1103.
-					// NB: Adesso non importa che tu faccia affidamento al service evtInterface perché puoi 
-					// utilizzare lo scope della direttiva in cui siamo
 					break;
 				case 'image':
 					topMenuList.selectors.push({
@@ -1114,6 +1131,7 @@ angular.module('evtviewer.box')
 				appFilters: appFilters,
 				isLoading: isLoading,
 				genericTools: genericTools,
+				visibleParagraphs: visibleParagraphs, 
 
 				// function
 				updateContent: updateContent,
@@ -1131,6 +1149,9 @@ angular.module('evtviewer.box')
 				fontSizeReset: fontSizeReset,
 				getNamedEntitiesActiveTypes: getNamedEntitiesActiveTypes,
 				getAdditionalClass: getAdditionalClass,
+
+				getParagraphs: getParagraphs, 
+				loadMoreElements: loadMoreElements,
 
 				//TEMP
 				isITLactive: isITLactive

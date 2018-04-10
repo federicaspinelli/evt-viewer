@@ -29,8 +29,6 @@ angular.module('evtviewer.interface')
 .service('evtInterface', function($rootScope, $timeout, evtTranslation, evtCommunication, evtCriticalApparatusParser, evtCriticalParser, evtPinnedElements, evtCriticalApparatusEntry, evtAnaloguesParser, config, $routeParams, parsedData, evtReading, $q) {
     var mainInterface = {};
 
-    /*mainInterface.visibleParagraphs = [];*/
-
     /**
      * @ngdoc property
      * @name evtviewer.interface.evtInterface#state
@@ -253,10 +251,6 @@ angular.module('evtviewer.interface')
 
                           //dopo aver parsato tutti i dati, definisco gli elementi visibili                          
                           $q.all(promises).then(function() {
-                            /*var parsedElements = parsedData.getPar(); //restituisce la collezione
-                                
-                            mainInterface.visibleParagraphs = parsedElements._indexes.slice(0, 5);*/
-
                               // Update current app entry
                               if (state.currentAppEntry !== undefined &&
                                   parsedData.getCriticalEntryById(state.currentAppEntry) === undefined) {
