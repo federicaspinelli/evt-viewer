@@ -44,6 +44,10 @@
          style="{{vm.fontSize();}}"
          id="box_body_{{::vm.uid}}" 
          ng-if="vm.type=='paragraphs'">
+	        <div infinite-scroll="vm.loadMoreElements()" infinite-scroll-distance="2" infinite-scroll-parent="true">
+	            <evt-paragraph ng-repeat="paragraphId in vm.getParagraphs()" data-par-id="{{::paragraphId}}">
+	            </evt-paragraph>
+	        </div>
             <!-- LUCIA: Aggiungi qui la parte HTML legata al lazy loading dei paragrafi -->
     </div>
     

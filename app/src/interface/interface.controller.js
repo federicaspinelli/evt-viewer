@@ -613,7 +613,7 @@ angular.module('evtviewer.interface')
 			evtTranslation.setLanguage(langKey);
 		};
 
-      $scope.getParagraphs = function() {
+      /*$scope.getParagraphs = function() {
          return evtInterface.visibleParagraphs;
       }
       
@@ -628,7 +628,7 @@ angular.module('evtviewer.interface')
                i++;
             }
          }
-      }
+      }*/
 		_console.log('InterfaceCtrl running');
 	})
 
