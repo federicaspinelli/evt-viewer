@@ -1,11 +1,11 @@
 var lunr = require('lunr');
 
 angular.module('evtviewer.dataHandler')
-   .service('evtSearchIndex', function Index() {
+   .service('evtSearchIndex', function Index(evtSearchDocument) {
       this.index = {};
       
       Index.prototype.createIndex = function (parsedElementsForIndexing) {
-         console.time('INDEX');
+         console.time('INDEX TIME');
          
          var document;
          this.index = lunr(function () {
@@ -18,9 +18,11 @@ angular.module('evtviewer.dataHandler')
             
             this.ref('xmlDocId');
             
-            if(parsedElementsForIndexing[Object.keys(parsedElementsForIndexing)[0]].content.diplomatic) {
+            if(parsedElementsForIndexing[Object.keys(parsedElementsForIndexing)[0]].content.diplomatic !== undefined) {
                this.field('diplomaticText');
-               this.field('interpretativeText');
+               if(evtSearchDocument.isAlsoInterpEdition()) {
+                  this.field('interpretativeText');
+               }
             }
             else {
                this.field('content');
@@ -45,7 +47,7 @@ angular.module('evtviewer.dataHandler')
                }
             }
          });
-         console.timeEnd('INDEX');
+         console.timeEnd('INDEX TIME');
          return this.index;
       };
       
@@ -222,7 +224,8 @@ angular.module('evtviewer.dataHandler')
                tokens.push(
                   new lunr.Token (token, {
                      position: [startIndex, tokenLength],
-                     index: tokens.length
+                     index: tokens.length,
+                     originalToken: token
                   })
                );
             }
@@ -238,7 +241,8 @@ angular.module('evtviewer.dataHandler')
                   tokens.push(
                      new lunr.Token (tok, {
                         position: [prevTokenEndIndex + 1, tokenLength],
-                        index: tokens.length
+                        index: tokens.length,
+                        originalToken: tok
                      })
                   );
                }
