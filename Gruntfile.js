@@ -18,14 +18,73 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'build'
+    dist: 'build',
+    docs: '<%= yeoman.app %>/docs',
+    distDocs: 'devDocs'
   };
+
+  grunt.loadNpmTasks('grunt-ngdocs');
+
+  grunt.loadNpmTasks('grunt-markdown');
+
+  grunt.loadNpmTasks('grunt-text-replace'); // Used to automatically replace the path to config.json in GLOBALCONFIGS
 
   // Define the configuration for all the tasks
   grunt.initConfig({
 
     // Project settings
     yeoman: appConfig,
+
+    ngdocs: {
+      options: {
+        scripts: ['angular.js', '../src.js'],
+        html5Mode: false,
+        template: '<%= yeoman.docs %>/templates/index.tmpl',
+        startPage: '/api',
+        dest: '<%= yeoman.distDocs %>'
+      },
+      installation: {
+        src: ['<%= yeoman.docs %>/installation/*.ngdoc'],
+        title: 'Development Enviroment Preparation'
+      },
+      api: {
+        src: ['<%= yeoman.docs %>/index.ngdoc', '<%= yeoman.app %>/src/evtviewer.js', '<%= yeoman.app %>/src/**/*.js', '!<%= yeoman.app %>/src/mobile/*.js'],
+        title: 'EVT 2 Dev Documentation'
+      }
+    },
+
+    markdown: {
+      all: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/',
+            src: '{,*/}*.md',
+            dest: '<%= yeoman.dist %>',
+            ext: '.html'
+          }
+        ]
+      }
+    },
+
+    replace: {
+      configPathBuild: {
+        src: ['<%= yeoman.app %>/src/{,*/}*.js'],
+        overwrite: true,
+        replacements: [{
+          from: '../../config/config.json',
+          to: 'config/config.json'
+        }]
+      },
+      configPathDev: {
+        src: ['<%= yeoman.app %>/src/{,*/}*.js'],
+        overwrite: true,
+        replacements: [{
+          from: 'config/config.json',
+          to: '../../config/config.json'
+        }]
+      }
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -47,6 +106,18 @@ module.exports = function (grunt) {
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         tasks: ['compass:server', 'autoprefixer']
+      },
+      /*babel: {
+        files: ['<%= yeoman.app %>/src/dataHandler/search/searchDocument.service.js',
+                '<%= yeoman.app %>/src/dataHandler/search/searchPoetry.service.js',
+                '<%= yeoman.app %>/src/dataHandler/search/criticalEditionHandler.service.js'],
+        tasks: ['babel']
+      },*/
+      webpack: {
+        files: ['<%= yeoman.app %>/src/dataHandler/search/searchIndex.service.js',
+               '<%= yeoman.app %>/src/dataHandler/search/searchQuery.service.js',
+               '<%= yeoman.app %>/src/dataHandler/search/searchResults.service.js'],
+         tasks: ['webpack']
       },
       // gruntfile: {
       //   files: ['Gruntfile.js']
@@ -152,6 +223,16 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      docs: {
+        files: [{
+          dot: true,
+          src: [
+            '.tmp',
+            '<%= yeoman.distDocs %>/{,*/}*',
+            '!<%= yeoman.distDocs %>/.git{,*/}*'
+          ]
+        }]
+      },
       server: '.tmp'
     },
 
@@ -175,12 +256,13 @@ module.exports = function (grunt) {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath:  /\.\.\//
-      },
-      // TODO: temp mobile
-      mobile: {
-        src: ['<%= yeoman.app %>/mobile.html'],
-        ignorePath:  /\.\.\//
       }
+      //,
+      // TODO: temp mobile
+      // mobile: {
+      //   src: ['<%= yeoman.app %>/mobile.html'],
+      //   ignorePath:  /\.\.\//
+      // }
       // TODO: overwrite bootstrap style in EVT css
       // sass: {
       //   src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
@@ -217,13 +299,36 @@ module.exports = function (grunt) {
       }
     },
 
+    // Compiles ES6 to ES5
+    /*babel: {
+       options: {
+             sourceMap: true,
+             presets: ['env']
+       },
+       dist: {
+          files: {
+             'app/dist/comp/searchDocument.service.js': 'app/src/dataHandler/search/searchDocument.service.js',
+             'app/dist/comp/searchPoetry.service.js': 'app/src/dataHandler/search/searchPoetry.service.js',
+             'app/dist/comp/criticalEditionHandler.service.js': 'app/src/dataHandler/search/criticalEditionHandler.service.js',
+          }
+       }
+     },*/
+
+    // Module bundler
+    webpack: {
+      options: {
+        progress: true
+      },
+      app: require('./webpack.config')
+    },
+
     // Renames files for browser caching purposes
     filerev: {
       dist: {
         src: [
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
           '<%= yeoman.dist %>/styles/{,*/}*.css',
-          '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          //'<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/styles/fonts/*'
         ]
       }
@@ -350,7 +455,7 @@ module.exports = function (grunt) {
     // Replace Google CDN references
     cdnify: {
       dist: {
-        html: ['<%= yeoman.dist %>/*.html']
+        html: ['<%= yeoman.dist %>/*.html', '!<%= yeoman.dist %>/mobile.html']
       }
     },
 
@@ -366,6 +471,8 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
+            '!mobile.html',
+            'README.md',
             'images/{,*/}*.{webp}',
             'fonts/{,*/}*.*',
             'config/{,*/}*.*',
@@ -388,6 +495,12 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      docs: {
+        expand: true,
+        cwd: '<%= yeoman.docs %>',
+        dest: '<%= yeoman.distDocs %>',
+        src: []
       }
     },
 
@@ -424,8 +537,8 @@ module.exports = function (grunt) {
       },
       local_dependencies: {
         files: {
-          '<%= yeoman.app %>/index.html': ['<%= yeoman.app %>/src/*/*.js'],
-          '<%= yeoman.app %>/mobile.html': ['<%= yeoman.app %>/src/*/*.js']
+          '<%= yeoman.app %>/index.html': ['<%= yeoman.app %>/src/*/*.js']
+          //'<%= yeoman.app %>/mobile.html': ['<%= yeoman.app %>/src/*/*.js']
         }
       }
     }
@@ -444,6 +557,8 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer',
+      /*babel*/
+      'webpack',
       'connect:livereload',
       'watch'
     ]);
@@ -453,7 +568,7 @@ module.exports = function (grunt) {
   //   grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
   //   grunt.task.run(['serve:' + target]);
   // });
-
+   //grunt.registerTask('default', ['babel']);
   grunt.registerTask('test', [
     'clean:server',
     'concurrent:test',
@@ -465,6 +580,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     // 'injector',
+    'replace:configPathBuild',
     'html2js:main',
     'wiredep',
     'useminPrepare',
@@ -477,9 +593,13 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'filerev',
-    'usemin'
+    'usemin',
+    'markdown',
+    'replace:configPathDev'
     // 'htmlmin'
   ]);
+
+  grunt.registerTask('docs', ['clean', 'ngdocs', 'copy:docs']);
 
   grunt.registerTask('default', [
     'newer:jshint',

@@ -1,3 +1,21 @@
+/**
+ * @ngdoc directive
+ * @module evtviewer.namedEntity
+ * @name evtviewer.namedEntity.directive:evtNamedEntityRef
+ * @description 
+ * # evtNamedEntityRef
+ * <p>Simple container representing a named entity occurrence. It is strictly connected to a specific
+ * named entity and allows the user to quickly access all the details about it.
+ * <p>The {@link evtviewer.namedEntity.controller:NamedEntityRefCtrl controller} for this directive is dynamically defined 
+ * inside the {@link evtviewer.namedEntity.evtNamedEntityRef evtNamedEntityRef} provider file.</p>
+ *
+ * @scope
+ * @param {string=} entityId id of named entity to be shown
+ * @param {string=} entityType type of named entity ('person', 'place', 'org', 'generic')
+ *
+ * @restrict E
+ * @requires evtviewer.namedEntity.evtNamedEntityRef
+**/
 angular.module('evtviewer.namedEntity')
 
 .directive('evtNamedEntityRef', function(evtNamedEntityRef) {
@@ -20,7 +38,15 @@ angular.module('evtviewer.namedEntity')
 
             var entityElement = element.find('.namedEntityRef'),
                 detailsElement = element.find('.namedEntityRef__details');
-
+            /**
+             * @ngdoc method
+             * @name evtviewer.namedEntity.controller:NamedEntityRefCtrl#toggleActive
+             * @methodOf evtviewer.namedEntity.controller:NamedEntityRefCtrl
+             *
+             * @description
+             * Toggle the "active" class of named entity ref element.
+             * (This was necessary to cut down the number of watchers)
+             */
             scope.vm.toggleActive = function() {
                 if (scope.vm.active) {
                     entityElement.addClass('active');
@@ -30,7 +56,15 @@ angular.module('evtviewer.namedEntity')
                     detailsElement.removeClass('active');
                 }
             };
-
+            /**
+             * @ngdoc method
+             * @name evtviewer.namedEntity.controller:NamedEntityRefCtrl#toggleHighlight
+             * @methodOf evtviewer.namedEntity.controller:NamedEntityRefCtrl
+             *
+             * @description
+             * Toggle the "highlighted" class of named entity ref element.
+             * (This was necessary to cut down the number of watchers)
+             */
             scope.vm.toggleHighlight = function(toggle) {
                 if (toggle) {
                     entityElement.addClass('highlighted');
@@ -38,7 +72,18 @@ angular.module('evtviewer.namedEntity')
                     entityElement.removeClass('highlighted');
                 }
             };
-
+            /**
+             * @ngdoc method
+             * @name evtviewer.namedEntity.controller:NamedEntityRefCtrl#updateDetailsPosition
+             * @methodOf evtviewer.namedEntity.controller:NamedEntityRefCtrl
+             *
+             * @description
+             * Update position of tooltip containing named entity details. This function is used only
+             * if the editor-user chose to show details in tooltip instead than in inline mode.
+             * @param {$event} e event representing the click on trigger
+             * @param {Object} vm current scope 
+             * @todo: Fix problems
+             */
             scope.vm.updateDetailsPosition = function(e, vm) {
                 if (vm.active) {
                     e.stopPropagation();

@@ -21,22 +21,32 @@
     "grunt-html2js": "~0.2.9",
     "grunt-injector": "^0.5.4",
     "grunt-karma": "^0.9.0",
+    "grunt-markdown": "^0.7.0",
     "grunt-newer": "^0.7.0",
-    "grunt-ng-annotate": "^0.4.0",
+    "grunt-ng-annotate": "^1.0.1",
+    "grunt-ngdocs": "^0.2.10",
     "grunt-svgmin": "^0.4.0",
+    "grunt-text-replace": "^0.4.0",
     "grunt-usemin": "^2.1.1",
+    "grunt-webpack": "^1.0.18",
     "grunt-wiredep": "^1.7.0",
     "jshint-stylish": "^0.2.0",
     "karma": "^0.12.25",
     "karma-jasmine": "^0.2.3",
     "karma-phantomjs-launcher": "^0.1.4",
     "load-grunt-tasks": "^0.4.0",
-    "time-grunt": "^0.3.1"
+    "time-grunt": "^0.3.1",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.12.1"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "dependencies": {
+    "lunr": "^2.3.5",
+    "mark.js": "^8.11.1"
   }
 }

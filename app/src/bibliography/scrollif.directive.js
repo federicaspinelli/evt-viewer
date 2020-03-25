@@ -1,3 +1,13 @@
+/**
+ * @ngdoc service
+ * @module evtviewer.bibliography
+ * @name evtviewer.bibliography.directive:evtScrollIf
+ * @description 
+ * # evtScrollIf
+ * Scrolls the element on which it's assigned into the visible area of the browser window.
+ * 
+ * @author MR
+**/
 angular.module('evtviewer.bibliography')
 
 .directive('evtScrollIf', function($timeout) {

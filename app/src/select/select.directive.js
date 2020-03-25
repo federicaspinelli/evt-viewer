@@ -1,3 +1,28 @@
+/**
+ * @ngdoc directive
+ * @module evtviewer.select
+ * @name evtviewer.select.directive:evtSelect
+ * @description 
+ * # evtSelect
+ * <p>Element designed upon HTML &lt;select&gt;
+ * that will populate options list and handle selection according to a particular type.</p>
+ * <p>It uses the {@link evtviewer.select.controller:SelectCtrl SelectCtrl} controller.</p>
+ * <p>The initial scope is extended in {@link evtviewer.select.evtSelect evtSelect} provider.</p>
+ *
+ * @scope
+ * @param {string=} id id of select
+ * @param {string=} type type of select ('page', 'document', 'edition', 'named-entities', 'witness', 'witness-page', 'pinned-filter', 'source', 'version')
+ * @param {string=} init initial value selected
+ * @param {boolean=} openUp whether the select should open bottom->up instad of up->bottom
+ * @param {boolean=} multiselect whether of not select should allow multiple values selected
+ *
+ * @requires $timeout
+ * @requires evtviewer.select.evtSelect
+ * @requires evtviewer.interface.evtInterface
+ * @requires evtviewer.UItools.evtPinnedElements
+ *
+ * @restrict E
+**/
 angular.module('evtviewer.select')
 
 .directive('evtSelect', function($timeout, evtSelect, evtInterface, evtPinnedElements) {
@@ -59,7 +84,27 @@ angular.module('evtviewer.select')
 
             if (scope.type === 'page') {
                 scope.$watch(function() {
-                    return evtInterface.getCurrentPage();
+                    return evtInterface.getState('currentPage');
+                }, function(newItem, oldItem) {
+                    if (oldItem !== newItem) {
+                        currentSelect.selectOptionByValue(newItem);
+                    }
+                }, true); 
+            }
+
+            if (scope.type === 'edition') {
+                scope.$watch(function() {
+                    return evtInterface.getState('currentEdition');
+                }, function(newItem, oldItem) {
+                    if (oldItem !== newItem) {
+                        currentSelect.selectOptionByValue(newItem);
+                    }
+                }, true); 
+            }
+
+            if (scope.type === 'comparingEdition') {
+                scope.$watch(function() {
+                    return evtInterface.getState('currentComparingEdition');
                 }, function(newItem, oldItem) {
                     if (oldItem !== newItem) {
                         currentSelect.selectOptionByValue(newItem);
@@ -69,7 +114,7 @@ angular.module('evtviewer.select')
 
             if (scope.type === 'source') {
                 scope.$watch(function() {
-                    return evtInterface.getCurrentSource();
+                    return evtInterface.getState('currentSource') ;
                 }, function(newItem, oldItem) {
                     if (oldItem !== newItem) {
                         currentSelect.selectOptionByValue(newItem);
@@ -79,7 +124,7 @@ angular.module('evtviewer.select')
 
             if (scope.type === 'document') {
                 scope.$watch(function() {
-                    return evtInterface.getCurrentDocument();
+                    return evtInterface.getState('currentDoc');
                 }, function(newItem, oldItem) {
                     if (oldItem !== newItem) {
                         currentSelect.selectOptionByValue(newItem);
@@ -87,9 +132,9 @@ angular.module('evtviewer.select')
                 }, true); 
             }
 
-            if (scope.type === 'version' && evtInterface.getCurrentViewMode() === 'collation') {
+            if (scope.type === 'version' && evtInterface.getState('currentViewMode') === 'collation') {
                 scope.$watch(function() {
-                    return evtInterface.getCurrentVersion();
+                    return evtInterface.getState('currentVersion');
                 }, function(newItem, oldItem) {
                     if (oldItem !== newItem) {
                         currentSelect.selectOptionByValue(newItem);

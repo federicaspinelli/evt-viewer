@@ -1,3 +1,29 @@
+/**
+ * @ngdoc service
+ * @module evtviewer.box
+ * @name evtviewer.box.evtBox
+ * @description
+ * # evtBox
+ * This provider expands the scope of the
+ * {@link evtviewer.box.directive:box box} directive
+ * and stores its reference untill the directive remains instantiated.
+ *
+ * @requires $log
+ * @requires $q
+ * @requires $timeout
+ * @requires evtviewer.core.config
+ * @requires evtviewer.dataHandler.parsedData
+ * @requires evtviewer.dataHandler.evtParser
+ * @requires evtviewer.dataHandler.evtCriticalParser
+ * @requires evtviewer.dataHandler.evtCriticalApparatusParser
+ * @requires evtviewer.dataHandler.xmlParser
+ * @requires evtviewer.interface.evtInterface
+ * @requires evtviewer.UItools.evtImageTextLinking
+ * @requires evtviewer.namedEntity.evtNamedEntityRef
+ * @requires evtviewer.namedEntity.evtGenericEntity
+ * @requires evtviewer.apparatuses.evtApparatuses
+ * @requires evtviewer.dataHandler.evtSourcesApparatus
+ **/
 angular.module('evtviewer.box')
 
 .provider('evtBox', function() {
@@ -8,6 +34,18 @@ angular.module('evtviewer.box')
 		defaults = _defaults;
 	};
 
+	/**
+	 * @ngdoc object
+	 * @module evtviewer.box
+	 * @name evtviewer.box.controller:BoxCtrl
+	 * @description
+	 * # BoxCtrl
+	 * <p>This is controller for the {@link evtviewer.box.directive:box box} directive. </p>
+	 * <p>It is not actually implemented separately but its methods are defined in the
+	 * {@link evtviewer.box.evtBox evtBox} provider
+	 * where the scope of the directive is extended with all the necessary properties and methods
+	 * according to specific values of initial scope properties.</p>
+	 **/
 	this.$get = function($log, $q, $timeout, config, parsedData, evtParser, evtCriticalParser, evtCriticalApparatusParser, xmlParser, evtInterface, evtImageTextLinking, evtNamedEntityRef, evtGenericEntity, evtApparatuses, evtSourcesApparatus) {
 		var box = {},
 			collection = {},
@@ -18,18 +56,54 @@ angular.module('evtviewer.box')
 		//
 		// Control function
 		//
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#updateState
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Update a property of the box state.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+		 *
+		 * @param {string} key key to update
+		 * @param {any} value new value
+		 *
+		 * @returns {any} reference to new updated state property
+	     */
 		var updateState = function(key, value) {
-			// _console.log('vm - updating state '+key+': '+value);
 			var vm = this;
 			vm.state[key] = value;
 			return vm.state[key];
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#getState
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Retrieve a property of the box state.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+		 *
+		 * @param {string} key key of property to retrieve
+		 *
+		 * @returns {any} reference to state property
+	     */
 		var getState = function(key) {
 			var vm = this;
 			return vm.state[key];
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#destroy
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Remove instance from saved instances in {@link evtviewer.box.evtBox evtBox} provider.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+	     */
 		var destroy = function() {
 			var tempId = this.uid;
 			// this.$destroy();
@@ -37,31 +111,45 @@ angular.module('evtviewer.box')
 			// _console.log('vm - destroy ' + tempId);
 		};
 
-		// Critical edition control
-		// Critical App Filters look like this:
-		// {
-		//     resp : {
-		//         any: false,
-		//         name: "resp",
-		//         totActive: 2,
-		//         values: {
-		//             0: "m1",
-		//             1: "CDP", 
-		//             CDP: {
-		//                 active: true,
-		//                 color: "rgb(253, 153, 54)",
-		//                 name: "CDP"
-		//             },
-		//             m1: {
-		//                 active: true,
-		//                 color: "rgb(52, 197, 173)",
-		//                 name: "m1"
-		//             },
-		//             length: 2
-		//         }
-		//     },
-		//     _totActive: 2
-		// }
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#toggleCriticalAppFilter
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Toggle a certain filter on critical apparatus entries.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file, and will be acatually used only when
+		 * box is of type **text** or **witness**.</p>
+		 * <p>The internal properties in which active filters are stored is structure as follows:
+			<pre>
+				var filters = {
+				    resp : {
+				        any: false,
+				        name: "resp",
+				        totActive: 2,
+				        values: {
+				            0: "m1",
+				            1: "CDP",
+				            CDP: {
+				                active: true,
+				                color: "rgb(253, 153, 54)",
+				                name: "CDP"
+				            },
+				            m1: {
+				                active: true,
+				                color: "rgb(52, 197, 173)",
+				                name: "m1"
+				            },
+				            length: 2
+				        }
+				    },
+				    _totActive: 2
+				};
+			</pre></p>
+		 * @param {string} filter name of filter to toggle
+		 * @param {string} value value of filter to toggle
+	     */
 		var toggleCriticalAppFilter = function(filter, value) {
 			var vm = this,
 				filters = vm.state.filters;
@@ -102,7 +190,44 @@ angular.module('evtviewer.box')
 
 			filters[filter].any = (filters[filter].totActive === 0);
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#clearFilter
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Clear all selecter values referring to a certain filter on critical apparatus entries.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file, and will be acatually used only when
+		 * box is of type **text** or **witness**.</p>
+		 * <p>The internal properties in which active filters are stored is structure as follows:
+			<pre>
+				var filters = {
+				    resp : {
+				        any: false,
+				        name: "resp",
+				        totActive: 2,
+				        values: {
+				            0: "m1",
+				            1: "CDP",
+				            CDP: {
+				                active: true,
+				                color: "rgb(253, 153, 54)",
+				                name: "CDP"
+				            },
+				            m1: {
+				                active: true,
+				                color: "rgb(52, 197, 173)",
+				                name: "m1"
+				            },
+				            length: 2
+				        }
+				    },
+				    _totActive: 2
+				};
+			</pre></p>
+		 * @param {string} filter name of filter to clear
+	     */
 		var clearFilter = function(filter) {
 			var vm = this;
 			vm.state.filters[filter].values = {
@@ -111,56 +236,145 @@ angular.module('evtviewer.box')
 			vm.state.filters._totActive -= vm.state.filters[filter].totActive;
 			vm.state.filters[filter].totActive = 0;
 		};
-
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#toggleTopBox
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>TOpen/close the Top Box, usually used to store secondary
+	     * contents like header information about the shown text.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+	     */
 		var toggleTopBox = function() {
 			var vm = this;
 			if (vm.state.topBoxOpened !== undefined) {
 				vm.state.topBoxOpened = !vm.state.topBoxOpened;
 			}
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#toggleFilterBox
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Open/close the Box containing critical apparatus entries filters.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file, and will be acatually used only when
+		 * box is of type **text** or **witness**.</p>
+	     */
 		var toggleFilterBox = function() {
 			var vm = this;
 			if (vm.state.filterBox !== undefined) {
 				vm.state.filterBox = !vm.state.filterBox;
 			}
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#updateTopBoxContent
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Update the content to be shown in Top Box.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+		 *
+		 * @param {string} newContent string representing the HTML of new content to be shown in Top Box
+	     */
 		var updateTopBoxContent = function(newContent) {
 			var vm = this;
 			vm.topBoxContent = newContent;
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#fontSize
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Get CSS rule for current font size.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+		 *
+		 * @returns {string} CSS rule for current font size
+	     */
 		var fontSize = function() {
 			var vm = this;
 			return 'font-size:' + vm.state.fontSize + '%' || '';
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#fontSizeIncrease
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Increase font size.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+	     */
 		var fontSizeIncrease = function() {
 			var vm = this;
 			vm.state.fontSize = parseInt(vm.state.fontSize) + 4;
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#fontSizeDecrease
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Decrease font size.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+	     */
 		var fontSizeDecrease = function() {
 			var vm = this;
 			vm.state.fontSize = parseInt(vm.state.fontSize) - 4;
 
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#fontSizeReset
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Reset default font size.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+	     */
 		var fontSizeReset = function() {
 			var vm = this;
 			vm.state.fontSize = '100';
 		};
-
-		var toggleBtnGroup = function(groupState) {
-			groupState = !groupState;
-		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#isITLactive
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Check if Image Text Linking UI Tool is active.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+		 *
+		 * @returns {boolean} whether the ITL UI Tool is active or not
+	     */
 		var isITLactive = function() { //TEMP
 			return evtInterface.getToolState('ITL') === 'active';
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#getNamedEntitiesActiveTypes
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Get (Named) Entities active types.</p>
+	     * <p>The names of active types will be set as class name of box body contentainer with
+	     * the suffix <code>-active</code> and will be used in CSS stylesheets to highlight
+	     * (named) entities occurrences of the specific selected type.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+		 *
+		 * @returns {string} names of active (named) entities
+	     */
 		var getNamedEntitiesActiveTypes = function() {
 			var activeNamedEntityTypes = evtNamedEntityRef.getActiveEntityTypes(),
 				newClassValue = '';
@@ -169,7 +383,18 @@ angular.module('evtviewer.box')
 			}
 			return newClassValue;
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.controller:BoxCtrl#getAdditionalClass
+	     * @methodOf evtviewer.box.controller:BoxCtrl
+	     *
+	     * @description
+	     * <p>Get additional class names to be added to box-body container.</p>
+		 * <p>This method is defined and attached to controller scope in the
+		 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+		 *
+		 * @returns {string} class names to be added
+	     */
 		var getAdditionalClass = function() {
 			var vm = this;
 			var classNames = '';
@@ -181,9 +406,73 @@ angular.module('evtviewer.box')
 		//
 		// Box builder
 		//
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#build
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * <p>This method will extend the scope of {@link evtviewer.box.directive:box box} directive
+	     * according to selected configurations and parsed data.</p>
+	     * <p>According to <code>type</code> it will set the buttons and selectors to be shown in header and footer
+	     * and define the function to be used when the main content should be updated.</p>
+		 *
+		 * @param {Object} scope initial scope of the directive:
+		 	<pre>
+				var scope: {
+		            id : '@',
+		            type : '@',
+		            subtype : '@',
+		            witness : '@',
+		            witpage : '@',
+		            edition : '@',
+		            source : '@',
+		            version : '@'
+		        };
+		 	</pre>
+		 *
+		 * @returns {Object} extended scope:
+		 	<pre>
+				var scopeHelper = {
+					// expansion
+					uid,
+					defaults,
+
+					// model
+					topMenuList,
+					bottomMenuList,
+					content,
+					topBoxContent,
+					state,
+					appFilters,
+					isLoading,
+					genericTools,
+
+					// function
+					updateContent,
+					updateTopBoxContent,
+					updateState,
+					getState,
+					destroy,
+					toggleCriticalAppFilter,
+					toggleFilterBox,
+					toggleTopBox,
+					clearFilter,
+					fontSize,
+					fontSizeIncrease,
+					fontSizeDecrease,
+					fontSizeReset,
+					getNamedEntitiesActiveTypes,
+					getAdditionalClass,
+
+					isITLactive
+				};
+		 	</pre>
+	     */
 		box.build = function(scope, vm) {
 			var currentId = vm.id || idx++,
 				currentType = vm.type || 'default',
+            currentEdition = vm.edition,
 				topMenuList = {
 					selectors: [],
 					buttons: [],
@@ -199,7 +488,8 @@ angular.module('evtviewer.box')
 					topBoxOpened: false,
 					fontSizeBtn: false,
 					fontSize: '100',
-					topBoxContent: ''
+					topBoxContent: '',
+               searchBox: false
 				},
 				appFilters = [],
 				updateContent,
@@ -231,15 +521,48 @@ angular.module('evtviewer.box')
 			}
 
 			// _console.log('vm - building box for ' + currentId);
+			/**
+		     * @ngdoc method
+		     * @name evtviewer.box.controller:BoxCtrl#updateContent
+		     * @methodOf evtviewer.box.controller:BoxCtrl
+		     *
+		     * @description
+		     * <p>Update the content of the box.</p>
+		     * <p>This method will differ from a box instance to another,
+		     * depending on its type.: <ul>
+			 * <li>If '*image*' it will change the image shown, and prepare the zones for the eventual Image-Text linking tool.</li>
+			 * <li>If '*text*' it will change the text shown, depending on current edition level.
+			 * If the text is not yet available it will parse it and save it in {@link evtviewer.dataHandler.parsedData parsedData}
+			 * for future retrievements. After the new text is set it will eventually prepare the text for the correct
+			 * functioning of tools like Image-Text Linking, Highlight of Named Entities, etc.</li>
+			 * <li>if '*witness*' it will change the text shown, depending on the scope witness.
+			 * * If the text is not yet available it will parse it and save it in {@link evtviewer.dataHandler.parsedData parsedData}
+			 * for future retrievements.</li>
+			 * <li>if '*source*' it will change the text shown, depending on the scope source.
+			 * * If the text is not yet available it will parse it and save it in {@link evtviewer.dataHandler.parsedData parsedData}
+			 * for future retrievements.</li>
+			 * <li>if '*version*' it will change the text shown, depending on the scope version.
+			 * * If the text is not yet available it will parse it and save it in {@link evtviewer.dataHandler.parsedData parsedData}
+			 * for future retrievements.</li>
+			 * <li>otherwise it will set as new content, the one that is passed as method parameter.</li>
+			 * </ul></p>
+			 * <p>For more details we suggest to see the implementation itself.</p>
+			 * <p>This method is defined and attached to controller scope in the
+			 * {@link evtviewer.box.evtBox evtBox} provider file.</p>
+			 *
+			 * @param {string} newContent HTML string representing the new content to be shown in the box.
+			 * This will not be necessary for instances of box with type equal to "image", "text", "witness", "source" and "version".
+			 * @returns {string} class names to be added
+		     */
 			var newContent;
 			switch (currentType) {
 				case 'image':
 					topMenuList.selectors.push({
 						id: 'page_' + currentId,
 						type: 'page',
-						initValue: evtInterface.getCurrentPage()
+						initValue: evtInterface.getState('currentPage')
 					});
-					
+
 					topMenuList.buttons.push({
 						title: 'BUTTONS.THUMBNAILS',
 						label: 'BUTTONS.THUMBS',
@@ -254,14 +577,20 @@ angular.module('evtviewer.box')
 							type: 'itl'
 						});
 					}
-
+					topMenuList.buttons.push({
+						title: 'BUTTONS.MS',
+						label: 'BUTTONS.MSD',
+						type: 'msDesc'
+					});
+     
+     
 					updateContent = function() {
 						scope.vm.isLoading = true;
-						var currentPage = evtInterface.getCurrentPage(),
+						var currentPage = evtInterface.getState('currentPage'),
 							currentPageObj = currentPage ? parsedData.getPage(currentPage) : undefined,
 							pageSource = currentPageObj ? currentPageObj.source : '';
 						pageSource = pageSource === '' ? 'data/images/' + currentPage + '.png' : pageSource;
-						scope.vm.content = '<img src="' + pageSource + '" alt="Image of page ' + currentPage + ' of ' + evtInterface.getCurrentDocument() + '" onerror="this.setAttribute(\'src\', \'images/empty-image.jpg\')"/>';
+						scope.vm.content = '<img src="' + pageSource + '" alt="Image of page ' + currentPage + ' of ' + evtInterface.getState('currentDoc') + '" onerror="this.setAttribute(\'src\', \'images/fol_214v.jpg\')"/>';
 						// TODO: Add translation for alt text
 						// TEMP... TODO: creare direttiva per gestire le zone sull'immagine
 						var zonesHTML = '',
@@ -289,20 +618,57 @@ angular.module('evtviewer.box')
 						scope.vm.isLoading = false;
 					};
 					break;
-				case 'text':
-					//TODO: Differentiate main text from second one
+            case 'text':
+               if(currentId === 'mainText' || currentId === 'mainText1') {
+                  bottomMenuList.buttons.push({
+                     title: 'Search',
+                     label: 'Search',
+                     icon: 'search',
+                     type: 'searchToolsInternal',
+                     show: function() {
+                        return true;
+                     },
+                     disabled: function() {
+                        return true;
+                     }
+                  });
+                  bottomMenuList.buttons.push({
+                     title: 'Create index for enable search',
+                     label: 'Create index',
+                     icon: '',
+                     type: 'searchIndex',
+                     show: function() {
+                        return true;
+                     }
+                  });
+               }
+               else {
+                  bottomMenuList.buttons.push({
+                     title: 'Search',
+                     label: 'Search',
+                     icon: 'search',
+                     type: 'searchToolsInternal',
+                     show: function() {
+                        return true;
+                     },
+                     disabled: function() {
+                        return true;
+                     }
+                  });
+               }
+               
 					if ((config.showDocumentSelector && parsedData.getDocuments()._indexes.length > 0) || parsedData.getDocuments()._indexes.length > 1) {
 						topMenuList.selectors.push({
 							id: 'document_' + currentId,
 							type: 'document',
-							initValue: evtInterface.getCurrentDocument()
+							initValue: evtInterface.getState('currentDoc')
 						});
 					}
 					if (!parsedData.isCriticalEditionAvailable()) {
 						topMenuList.selectors.push({
 							id: 'page_' + currentId,
 							type: 'page',
-							initValue: evtInterface.getCurrentPage()
+							initValue: evtInterface.getState('currentPage')
 						});
 					} else {
 						topMenuList.buttons.push({
@@ -311,26 +677,34 @@ angular.module('evtviewer.box')
 							icon: 'witnesses',
 							type: 'witList'
 						});
-						if (evtInterface.getCurrentViewMode() === 'collation' && config.versions.length > 1 && Object.keys(parsedData.getVersionEntries()._indexes.versionWitMap > 0)) {
-							/*if (scope.vm.version === undefined || scope.vm.version === '') {
-							    evtInterface.updateCurrentVersion(config.versions[0]);
-							    scope.vm.version = evtInterface.getCurrentVersion();
-							}  */
+						if (evtInterface.getState('currentViewMode') === 'collation' && config.versions.length > 1 && Object.keys(parsedData.getVersionEntries()._indexes.versionWitMap > 0)) {
+							// if (scope.vm.version === undefined || scope.vm.version === '') {
+							//     evtInterface.updateCurrentVersion(config.versions[0]);
+							//     scope.vm.version = evtInterface.getState('currentVersion');
+							// }
 							topMenuList.selectors.push({
 								id: 'version_' + currentId,
 								type: 'version',
-								initValue: evtInterface.getCurrentVersion()
+								initValue: evtInterface.getState('currentVersion')
 							});
 						}
 					}
 
 
 					if ((config.showEditionLevelSelector && config.availableEditionLevel.length > 0) || config.availableEditionLevel.length > 1) {
-						topMenuList.selectors.push({
-							id: 'editionLevel_' + currentId,
-							type: 'edition',
-							initValue: evtInterface.getCurrentEdition()
-						});
+						if (scope.subtype === 'comparing') {
+							topMenuList.selectors.push({
+								id: 'comparingEditionLevel_' + currentId,
+								type: 'comparingEdition',
+								initValue: evtInterface.getState('currentComparingEdition')
+							});
+						} else {
+							topMenuList.selectors.push({
+								id: 'editionLevel_' + currentId,
+								type: 'edition',
+								initValue: evtInterface.getState('currentEdition')
+							});
+						}
 					}
 
 					topMenuList.buttons.push({
@@ -374,7 +748,7 @@ angular.module('evtviewer.box')
 						_totActive: 0
 					};
 					state.filterBox = false;
-					state.docId = evtInterface.getCurrentDocument();
+					state.docId = evtInterface.getState('currentDoc');
 					if (config.toolHeatMap) {
 						bottomMenuList.buttons.push({
 							title: 'BUTTONS.HEAT_MAP',
@@ -408,23 +782,26 @@ angular.module('evtviewer.box')
 							newDoc = parsedData.getCriticalText(scope.vm.state.docId);
 							if (newDoc === undefined) {
 								newDoc = parsedData.getDocument(scope.vm.state.docId);
-								try {
-									if (config.versions.length > 2) {
-										promises.push(evtCriticalParser.parseCriticalText(newDoc.content, scope.vm.state.docId, config.versions[0]).promise);
-									} else {
-										promises.push(evtCriticalParser.parseCriticalText(newDoc.content, scope.vm.state.docId).promise);
-									}
-									$q.all(promises).then(function() {
-										scope.vm.content = parsedData.getCriticalText(scope.vm.state.docId) || noTextAvailableMsg;
-										scope.vm.isLoading = false;
-										$timeout(function() {
-											evtGenericEntity.highlightActiveTypes();
+
+								if (newDoc !== undefined) {
+									try {
+										if (config.versions.length > 2) {
+											promises.push(evtCriticalParser.parseCriticalText(newDoc.content, scope.vm.state.docId, config.versions[0]).promise);
+										} else {
+											promises.push(evtCriticalParser.parseCriticalText(newDoc.content, scope.vm.state.docId).promise);
+										}
+										$q.all(promises).then(function() {
+											scope.vm.content = parsedData.getCriticalText(scope.vm.state.docId) || noTextAvailableMsg;
+											scope.vm.isLoading = false;
+											$timeout(function() {
+												evtGenericEntity.highlightActiveTypes();
+											});
 										});
-									});
-								} catch (err) {
-									_console.log(err);
-									newContent = errorMsg;
-									scope.vm.isLoading = false;
+									} catch (err) {
+										_console.log(err);
+										newContent = errorMsg;
+										scope.vm.isLoading = false;
+									}
 								}
 							} else {
 								scope.vm.content = newDoc || noTextAvailableMsg;
@@ -434,7 +811,7 @@ angular.module('evtviewer.box')
 								});
 							}
 						} else if (scope.vm.edition !== undefined && scope.vm.edition === 'critical' && (scope.vm.version !== '' && scope.vm.version !== undefined)) {
-							var currentDocId = evtInterface.getCurrentDocument();
+							var currentDocId = evtInterface.getState('currentDoc');
 							if (scope.vm.version === config.versions[0]) {
 								newDoc = parsedData.getCriticalText(currentDocId) || undefined;
 							} else {
@@ -463,9 +840,9 @@ angular.module('evtviewer.box')
 							}
 						} else { // Other edition level
 							// parsedData.getDocument(scope.vm.state.docId).content
-							var currentPage = evtInterface.getCurrentPage(),
-								currentDoc = evtInterface.getCurrentDocument(),
-								currentEdition = evtInterface.getCurrentEdition();
+							var currentPage = evtInterface.getState('currentPage'),
+								currentDoc = evtInterface.getState('currentDoc'),
+								currentEdition = scope.subtype === 'comparing' ? evtInterface.getState('currentComparingEdition') : evtInterface.getState('currentEdition');
 							newDoc = parsedData.getPageText(currentPage, currentDoc, currentEdition);
 							if (newDoc === undefined) {
 								newDoc = parsedData.getPageText(currentPage, currentDoc, 'original');
@@ -560,11 +937,11 @@ angular.module('evtviewer.box')
 					updateContent = function() {
 						scope.vm.isLoading = true;
 						var errorMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.ERROR_IN_PARSING_TEXT\' | translate }} <br /> {{ \'MESSAGES.TRY_DIFFERENT_BROWSER_OR_CONTACT_DEVS\' | translate }}</span>',
-							noTextAvailableMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.TEXT_OF_WITNESS_NOT_AVAILABLE\' | translate:\'{ witness:  "'+vm.witness+'" }\' }}</span>';
+							noTextAvailableMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.TEXT_OF_WITNESS_NOT_AVAILABLE\' | translate:\'{ witness:  "' + vm.witness + '" }\' }}</span>';
 
 						if (vm.witness !== undefined) {
 							// Main content
-							var currentDocId = evtInterface.getCurrentDocument(),
+							var currentDocId = evtInterface.getState('currentDoc'),
 								newContent = parsedData.getWitnessText(vm.witness, currentDocId) || undefined;
 							if (newContent === undefined) {
 								var documents = parsedData.getDocuments(),
@@ -596,18 +973,18 @@ angular.module('evtviewer.box')
 						}
 					};
 					break;
-				/*************/
-				/*Case source*/
-				/****************************************************************************/
-				/* It loads the parsed text of the current source text. Available a selector*/
-				/* to choose the source to show, a button for bibliographic reference and a */
-				/* button to change font size. | @author --> CM                             */
-				/****************************************************************************/
+					// /////////// //
+					// Case source //
+					// ////////////////////////////////////////////////////////////////////////////
+					// It loads the parsed text of the current source text. Available a selector //
+					// to choose the source to show, a button for bibliographic reference and a  //
+					// button to change font size. | author --> CM                               //
+					// ////////////////////////////////////////////////////////////////////////////
 				case 'source':
 					topMenuList.selectors.push({
 						id: 'sources_' + currentId,
 						type: 'source',
-						initValue: evtInterface.getCurrentSourceText()
+						initValue: evtInterface.getState('currentSourceText')
 					});
 					topMenuList.buttons.push({
 						title: 'BUTTONS.BIBLIOGRAPHIC_REF',
@@ -629,7 +1006,7 @@ angular.module('evtviewer.box')
 					updateContent = function() {
 						scope.vm.isLoading = true;
 						var errorMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.ERROR_IN_PARSING_TEXT\' | translate }} <br /> {{ \'MESSAGES.TRY_DIFFERENT_BROWSER_OR_CONTACT_DEVS\' | translate }}</span>',
-							noTextAvailableMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.TEXT_OF_SOURCE_NOT_AVAILABLE\' | translate:\'{ source:  "'+scope.vm.source+'" }\' }}</span>';
+							noTextAvailableMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.TEXT_OF_SOURCE_NOT_AVAILABLE\' | translate:\'{ source:  "' + scope.vm.source + '" }\' }}</span>';
 
 						// Main content
 						var sourceObj = parsedData.getSource(scope.vm.source),
@@ -647,8 +1024,8 @@ angular.module('evtviewer.box')
 										scope.vm.content = parsedData.getSource(scope.vm.source).text || noTextAvailableMsg;
 										scope.vm.isLoading = false;
 									});
-									var sourceBibl = evtSourcesApparatus.getSource(parsedData.getSource(evtInterface.getCurrentSourceText()));
-									updateTopBoxContent(sourceBibl);
+									var sourceBibl = evtSourcesApparatus.getSource(parsedData.getSource(evtInterface.getState('currentSourceText')));
+									if (sourceBibl) { updateTopBoxContent(sourceBibl); }
 								} catch (err) {
 									_console.log(err);
 									scope.vm.content = errorMsg;
@@ -665,13 +1042,13 @@ angular.module('evtviewer.box')
 						}
 					};
 					break;
-					/**************/
-					/*Case version*/
-					/*********************************************************************/
-					/* It loads the parsed texts of the main text different versions.    */
-					/* There are a selector to choose the version, a button to remove    */
-					/* the version and a button to handle the font size. | @author --> CM*/
-					/*********************************************************************/
+				// //////////// //
+				// Case version //
+				// /////////////////////////////////////////////////////////////////////
+				// It loads the parsed texts of the main text different versions.     //
+				// There are a selector to choose the version, a button to remove     //
+				// the version and a button to handle the font size. | author --> CM //
+				// /////////////////////////////////////////////////////////////////////
 				case 'version':
 					var versionId = parsedData.getVersionEntries()._indexes.versionId[vm.version];
 					topMenuList.selectors.push({
@@ -700,10 +1077,10 @@ angular.module('evtviewer.box')
 					updateContent = function() {
 						scope.vm.isLoading = true;
 						var errorMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.ERROR_IN_PARSING_TEXT\' | translate }} <br /> {{ \'MESSAGES.TRY_DIFFERENT_BROWSER_OR_CONTACT_DEVS\' | translate }}</span>',
-							noTextAvailableMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.TEXT_OF_VERSION_NOT_AVAILABLE\' | translate:\'{ version:  "'+vm.version+'" }\' }}</span>';
+							noTextAvailableMsg = '<span class="alert-msg alert-msg-error">{{ \'MESSAGES.TEXT_OF_VERSION_NOT_AVAILABLE\' | translate:\'{ version:  "' + vm.version + '" }\' }}</span>';
 
 						if (vm.version !== undefined) {
-							var currentDocId = evtInterface.getCurrentDocument(),
+							var currentDocId = evtInterface.getState('currentDoc'),
 								newContent = parsedData.getVersionText(vm.version, currentDocId) || undefined;
 							if (newContent === undefined) {
 								var documents = parsedData.getDocuments(),
@@ -767,6 +1144,7 @@ angular.module('evtviewer.box')
 			}
 
 			scopeHelper = {
+            currentEdition: currentEdition,
 				// expansion
 				uid: currentId,
 				defaults: angular.copy(defaults),
@@ -795,7 +1173,6 @@ angular.module('evtviewer.box')
 				fontSizeIncrease: fontSizeIncrease,
 				fontSizeDecrease: fontSizeDecrease,
 				fontSizeReset: fontSizeReset,
-				toggleBtnGroup: toggleBtnGroup,
 				getNamedEntitiesActiveTypes: getNamedEntitiesActiveTypes,
 				getAdditionalClass: getAdditionalClass,
 
@@ -815,16 +1192,48 @@ angular.module('evtviewer.box')
 		//
 		// Service function
 		//
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#getById
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * Get the reference of the instance of a particular <code>&lt;box&gt;</code>.
+		 *
+		 * @param {string} currentId id of box to retrieve
+		 *
+		 * @returns {Object} reference of the instance of <code>&lt;box&gt;</code> with given id
+	     */
 		box.getById = function(currentId) {
 			if (collection[currentId] !== 'undefined') {
 				return collection[currentId];
 			}
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#getList
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * Get the list of all the instance of <code>&lt;box&gt;</code>.
+		 *
+		 * @returns {array} array of ids of all the instance of <code>&lt;box&gt;</code>.
+	     */
 		box.getList = function() {
 			return list;
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#getListByType
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * Get the references of the instance of a all <code>&lt;box&gt;</code>s of a particular type.
+		 *
+		 * @param {string} type type of boxes to retrieve
+		 *
+		 * @returns {array} array of references of the instance of <code>&lt;box&gt;</code>s of given type
+	     */
 		box.getListByType = function(type) {
 			var listType = [];
 			for (var i in collection) {
@@ -834,7 +1243,20 @@ angular.module('evtviewer.box')
 			}
 			return listType;
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#getElementByValueOfParameter
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * Get the references of the instance of the <code>&lt;box&gt;</code> that present a particular property
+	     * with a particular value
+		 *
+		 * @param {string} parameter property that box should have
+		 * @param {string} value value of property that box should have
+		 *
+		 * @returns {array} array of references of requested <code>&lt;box&gt;</code>
+	     */
 		box.getElementByValueOfParameter = function(parameter, value) {
 			var element;
 			for (var i in collection) {
@@ -844,7 +1266,20 @@ angular.module('evtviewer.box')
 			}
 			return element;
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#alignScrollToApp
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * <p>Align box body container of all box instances to a particular critical apparatus entry.</p>
+		 * <p>For each box reference, the provider will trigger the function
+		 * {@link evtviewer.box.controller:BoxCtrl#scrollToAppEntry} of controller.</p>
+		 *
+		 * @param {string} appId critical apparatus entry to consider during alignment
+		 *
+		 * @author CDP
+	     */
 		box.alignScrollToApp = function(appId) {
 			for (var i in collection) {
 				if (collection[i].scrollToAppEntry !== undefined) {
@@ -852,10 +1287,22 @@ angular.module('evtviewer.box')
 				}
 			}
 		};
-
-		/*Methods added by CM*/
-		/*For the alignment of the apparatuses panel, with the other boxes*/
-		box.alignScrollToQuote = function(quoteId, segId) {
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#alignScrollToQuote
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * <p>Align box body container of all box instances to a particular quote or source entry.</p>
+		 * <p>For each box reference, the provider will trigger the function
+		 * {@link evtviewer.box.controller:BoxCtrl#scrollToQuotesEntry} of controller.</p>
+		 * <p>This function will be used for the alignment of the apparatuses panel with all other visible boxes.</p>
+		 * @param {string} quoteId quote to consider during alignment
+		 * @param {string} segId source entry to consider during alignment
+		 *
+		 * @author CM
+	     */
+	    box.alignScrollToQuote = function(quoteId, segId) {
 			for (var i in collection) {
 				if (collection[i].scrollToQuotesEntry !== undefined) {
 					if (collection[i].type === 'source') {
@@ -866,7 +1313,20 @@ angular.module('evtviewer.box')
 				}
 			}
 		};
-
+		/**
+	     * @ngdoc method
+	     * @name evtviewer.box.evtBox#alignScrollToAnalogue
+	     * @methodOf evtviewer.box.evtBox
+	     *
+	     * @description
+	     * <p>Align box body container of all box instances to a particular analogue entry.</p>
+		 * <p>For each box reference, the provider will trigger the function
+		 * {@link evtviewer.box.controller:BoxCtrl#scrollToAnaloguesEntry} of controller.</p>
+		 * <p>This function will be used for the alignment of the apparatuses panel with all other visible boxes.</p>
+		 * @param {string} analogueId analogue to consider during alignment
+		 *
+		 * @author CM
+	     */
 		box.alignScrollToAnalogue = function(analogueId) {
 			for (var i in collection) {
 				if (collection[i].scrollToAnaloguesEntry !== undefined) {
@@ -874,8 +1334,20 @@ angular.module('evtviewer.box')
 				}
 			}
 		};
-
+		
+		//TODO Add documentation
+		box.getEditionById = function (currentBoxId) {
+         return collection[currentBoxId].edition;
+      };
+		
+		box.getState = function (currentBoxId, key) {
+         return collection[currentBoxId].state[key];
+      };
+		
+		box.updateState = function (currentBoxId, key, value) {
+        collection[currentBoxId].state[key] = value;
+      };
+		
 		return box;
 	};
-
 });

@@ -1,38 +1,13 @@
 {
-	"dataUrl": "data/PhiBor_Esempio_codifica.xml",
-    "sourcesUrl"       : "",
-    
-    "sourcesTextsUrl" : "",
+
+    "indexTitle": "",
+    "webSite": "",
     "logoUrl": "",
-    "enableXMLdownload" : true,
+
+	"dataUrl": "",
+    "sourcesUrl"       : "",
     "analoguesUrl"     : "",
-
-	"preferredWitness": "",
-	"skipWitnesses": "",
-
-	"indexTitle": "",
-	"webSite": "",
-
-	"defaultEdition": "critical",
-	"showEditionLevelSelector": true,
-	"availableEditionLevel": [{
-		"value": "critical",
-		"label": "Critical",
-		"title": "Critical edition",
-		"visible": true
-	}, {
-		"value": "diplomatic",
-		"label": "Diplomatic",
-		"title": "Diplomatic edition",
-		"visible": false
-	}, {
-		"value": "interpretative",
-		"label": "Interpretative",
-		"title": "Interpretative edition",
-		"visible": true
-	}],
-
-    "showDocumentSelector": false,
+    "sourcesTextsUrl" : "",
 
     "defaultViewMode": "readingTxt",
 	"availableViewModes": [{
@@ -51,13 +26,13 @@
                                 "label"    : "IMAGE_TEXT",
                                 "icon"     : "mode-imgTxt",
                                 "viewMode" : "imgTxt",
-                                "visible"  : true
+                                "visible"  : false
                             },
                             {
                                 "label"    : "TEXT_TEXT",
                                 "icon"     : "mode-txtTxt",
                                 "viewMode" : "txtTxt",
-                                "visible"  : false
+                                "visible"  : true
                             },
                             {
                                 "label"    : "COLLATION",
@@ -77,35 +52,74 @@
                                 "viewMode" : "3dhop",
                                 "visible"  : true
                             }],
+    "defaultEdition": "diplomatic",
+    "showEditionLevelSelector": true,
 
-	"toolHeatMap": true,
-	"toolPinAppEntries": true,
-	"toolImageTextLinking": true,
+    "availableEditionLevel": [{
+        "value": "critical",
+        "label": "Critical",
+        "title": "Critical edition",
+        "visible": false
+    }, {
+        "value": "diplomatic",
+        "label": "Diplomatic",
+        "title": "Diplomatic edition",
+        "visible": true
+    }, {
+        "value": "interpretative",
+        "label": "Interpretative",
+        "title": "Interpretative edition",
+        "visible": true
+    }],
+
+    "enableXMLdownload" : true,
+
+    "toolPinAppEntries": true,
+    "toolImageTextLinking": true,
+    "namedEntitiesSelector": false,
+
+    "namedEntitiesToHandle": [{
+        "tagName": "persName",
+        "label": "Persons",
+        "available": true
+    },{
+        "tagName": "placeName",
+        "label": "Places",
+        "available": true
+    },{
+        "tagName": "orgName",
+        "label": "Organizations",
+        "available": true
+    }],
+
+    "otherEntitiesToHandle": [{
+        "tagName": "rolename",
+        "label": "Role Name",
+        "available": false,
+        "color": "#cfc"
+    }, {
+        "tagName": "measure",
+        "label": "Measure",
+        "available": false,
+        "color": "#ffecb3"
+    }],
+
+
+    "toolHeatMap": true,
+    "preferredWitness": "",
+    "skipWitnesses": "",
 
 	"listDef": "<listWit>, <listChange>",
 	"versionDef": "<witness>, <change>",
 	"fragmentMilestone": "<witStart>, <witEnd>",
 	"lacunaMilestone": "<lacunaStart>, <lacunaEnd>",
-	"skipCriticalEntriesFilters": "wit, target, corresp",
 	"possibleVariantFilters": "",
 	"possibleLemmaFilters": "resp",
 	"notSignificantVariant": "<orig>, <sic>, [type=orthographic]",
 
 	"maxWitsLoadTogether": 5,
-    
-    "versions" : ["rec2", "rec1", "rec3"],
-    "witnessesGroups": [
-        
-    ],
 
-    "quoteDef"              : "<quote>",
-    "analogueDef"           : "<seg>,<ref[type=parallelPassage]>",
-
-    "showReadingExponent": true,
-    
-    "showInlineCriticalApparatus": false,
-    "showInlineSources": false,
-    "showInlineAnalogues": false,
+    "showDocumentSelector": true,
 
 	"variantColors": {
 		"type": {
@@ -128,33 +142,17 @@
 	"variantColorDark": "",
 	"heatmapColor": "",
 
-    "namedEntitiesSelector": true,
-    
-    "namedEntitiesToHandle": [{
-        "tagName": "persName",
-        "label": "Persons",
-        "available": true
-    },{
-        "tagName": "placeName",
-        "label": "Places",
-        "available": true
-    },{
-        "tagName": "orgName",
-        "label": "Organizations",
-        "available": true
-    }],
+    "versions" : [],
+    "witnessesGroups": [ ],
 
-    "otherEntitiesToHandle": [{
-    	"tagName": "rolename",
-        "label": "Role Name",
-        "available": true,
-        "color": "#cfc"
-    }, {
-    	"tagName": "measure",
-    	"label": "Measure",
-    	"available": true,
-    	"color": "#ffecb3"
-    }],
+    "quoteDef"              : "<quote>",
+    "analogueDef"           : "<seg>,<ref[type=parallelPassage]>",
+
+    "showReadingExponent": true,
+
+    "showInlineCriticalApparatus": false,
+    "showInlineSources": false,
+    "showInlineAnalogues": false,
 
     "defaultBibliographicStyle": "Chicago",
 	"allowedBibliographicStyles": {
@@ -171,6 +169,8 @@
 			"enabled": true
 		}
 	},
+
+   "virtualKeyboardKeys": [],
 
     "languages": ["en", "it"]
 }

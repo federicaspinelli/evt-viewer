@@ -3,11 +3,50 @@
 /**
  * @ngdoc overview
  * @name evtviewer
+ * 
  * @description
  * # evtviewer
+ * Main module of the application. 
  *
- * Main module of the application.
+ * @requires {@link https://docs.angularjs.org/api/ngAnimate ngAnimate}
+ * @requires {@link https://docs.angularjs.org/api/ngCookies ngCookies}
+ * @requires {@link https://docs.angularjs.org/api/ngMessages ngMessages}
+ * @requires {@link https://docs.angularjs.org/api/ngResource ngResource}
+ * @requires {@link https://docs.angularjs.org/api/ngSanitize ngSanitize}
+ * @requires {@link https://docs.angularjs.org/api/ngTouch ngTouch}
+ * @requires {@link https://docs.angularjs.org/api/ngRoute ngRoute}
+ * @requires {@link https://github.com/johngeorgewright/angular-xml xml}
+ * @requires {@link https://github.com/krtnio/angular-pretty-xml prettyXml}
+ * @requires {@link https://sroze.github.io/ngInfiniteScroll/documentation.html infinite-scroll}
+ * @requires {@link https://angular-translate.github.io/docs/#/api pascalprecht.translate}
+ * @requires evtviewer.core
+ * @requires evtviewer.communication
+ * @requires evtviewer.translation
+ * @requires evtviewer.dataHandler
+ * @requires evtviewer.interface
+ * @requires evtviewer.box
+ * @requires evtviewer.select
+ * @requires evtviewer.buttonSwitch
+ * @requires evtviewer.popover
+ * @requires evtviewer.namedEntity
+ * @requires evtviewer.criticalApparatusEntry
+ * @requires evtviewer.reading
+ * @requires evtviewer.dialog
+ * @requires evtviewer.bibliography
+ * @requires evtviewer.reference
+ * @requires evtviewer.list
+ * @requires evtviewer.quote
+ * @requires evtviewer.tabsContainer
+ * @requires evtviewer.sourcesApparatusEntry
+ * @requires evtviewer.analogue
+ * @requires evtviewer.analoguesApparatusEntry
+ * @requires evtviewer.apparatuses
+ * @requires evtviewer.versionReading
+ * @requires evtviewer.versionApparatusEntry
+ * @requires evtviewer.UItools
+ * @requires evtviewer.search
  */
+ //* @requires evtviewer.mobile
 angular
 	.module('evtviewer', [
 		'ngAnimate',
@@ -16,7 +55,7 @@ angular
 		'ngResource',
 		'ngSanitize',
 		'ngTouch',
-		'templates-main',
+		'templates-main', 
 		'ngRoute',
 		'xml',
 		'prettyXml',
@@ -31,7 +70,7 @@ angular
 		'evtviewer.box',
 		'evtviewer.select',
 		'evtviewer.buttonSwitch',
-		'evtviewer.mobile',
+		//'evtviewer.mobile',
 		'evtviewer.popover',
 		'evtviewer.namedEntity',
 		'evtviewer.criticalApparatusEntry',
@@ -49,5 +88,6 @@ angular
         'evtviewer.versionReading',
         'evtviewer.versionApparatusEntry',
         'evtviewer.UItools',
+    	'evtviewer.search',
         'evtviewer.3dhop'
     ]);
